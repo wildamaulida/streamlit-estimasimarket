@@ -65,7 +65,7 @@ def parse_list(x):
     elif len(x) > 1:
         return ", ".join(x)
 
-filtered_data = data.loc[data["antecedents"] == item_antecedents]
+    filtered_data = data.loc[data["antecedents"] == item_antecedents]
     
     if not filtered_data.empty:
         return list(filtered_data.iloc[0, :])  # Jika ada hasil, kembalikan baris pertama
