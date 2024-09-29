@@ -64,18 +64,30 @@ def parse_list(x):
         return x[0]
     elif len(x) > 1:
         return ", ".join(x)
-    
-def return_item_df(item_antecedents):
-    data = rules[["antecedents", "consequents"]].copy()
-    
-    data["antecedents"] = data["antecedents"].apply(parse_list)
-    data["consequents"] = data["consequents"].apply(parse_list)
-    
-    return list(data.loc[data["antecedents"] == item_antecedents].iloc[0,:])
 
-if type(data) != type("No Result!"):
-    st.markdown("Hasil Rekomendasi : ")
-    st.success(f"Jika Konsumen Membeli **{item}**, maka membeli **{return_item_df(item)[1]}** secara bersamaan")
+filtered_data = data.loc[data["antecedents"] == item_antecedents]
+    
+    if not filtered_data.empty:
+        return list(filtered_data.iloc[0, :])  # Jika ada hasil, kembalikan baris pertama
+    else:
+        st.error(f"Tidak ada data yang cocok untuk item: {item_antecedents}")
+        return None  # Jika tidak ada hasil, kembalikan None
+
+# Memastikan item ada sebelum diakses
+result = return_item_df(item)
+if result is not None:
+    st.success(f"Jika Konsumen Membeli **{item}**, maka membeli **{result[1]}** secara bersamaan")
+# def return_item_df(item_antecedents):
+#     data = rules[["antecedents", "consequents"]].copy()
+    
+#     data["antecedents"] = data["antecedents"].apply(parse_list)
+#     data["consequents"] = data["consequents"].apply(parse_list)
+    
+#     return list(data.loc[data["antecedents"] == item_antecedents].iloc[0,:])
+
+# if type(data) != type("No Result!"):
+#     st.markdown("Hasil Rekomendasi : ")
+#     st.success(f"Jika Konsumen Membeli **{item}**, maka membeli **{return_item_df(item)[1]}** secara bersamaan")
     
 
 
